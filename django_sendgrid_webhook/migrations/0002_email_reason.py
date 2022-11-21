@@ -7,7 +7,7 @@ from django.db import models, migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('django_sendgrid', '0001_initial'),
+        ('django_sendgrid_webhook', '0001_initial'),
     ]
 
     operations = [

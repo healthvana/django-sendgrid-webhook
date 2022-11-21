@@ -3,7 +3,7 @@ from django.conf import settings
 
 import json
 
-from django_sendgrid import utils, models
+from django_sendgrid_webhook import utils, models
 
 
 class BaseTest(TestCase):
