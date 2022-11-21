@@ -7,7 +7,7 @@ from django.db import models, migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('sendgrid', '0001_initial'),
+        ('django_sendgrid', '0001_initial'),
     ]
 
     operations = [

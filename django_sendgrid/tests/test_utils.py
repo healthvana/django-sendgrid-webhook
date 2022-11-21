@@ -2,8 +2,8 @@ from django.test import TestCase
 from django.core import mail
 from django.conf import settings
 
-from sendgrid.utils import SendgridEmailMessage, SendgridEmailMultiAlternatives
-from sendgrid.models import Email
+from django_sendgrid.utils import SendgridEmailMessage, SendgridEmailMultiAlternatives
+from django_sendgrid.models import Email
 
 import json
 from copy import copy

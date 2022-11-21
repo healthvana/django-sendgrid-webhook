@@ -7,7 +7,7 @@ class Migration(migrations.Migration):
 
     dependencies = [
         ('contenttypes', '0002_remove_content_type_name'),
-        ('sendgrid', '0003_auto_20190722_1007'),
+        ('django_sendgrid', '0003_auto_20190722_1007'),
     ]
 
     operations = [

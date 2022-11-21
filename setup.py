@@ -14,14 +14,14 @@ def read_file(filename):
 
 setup(
     name='django-sendgrid-webhook',
-    version=__import__('sendgrid').__version__,
+    version=__import__('django_sendgrid').__version__,
     author='Resmio',
     author_email='support@gmail.com',
     packages=find_packages(),
     include_package_data=True,
     url='https://github.com/resmio/django-sendgrid',
     license='BSD 2-Clause',
-    description=' '.join(__import__('sendgrid').__doc__.splitlines()).strip(),
+    description=' '.join(__import__('django_sendgrid').__doc__.splitlines()).strip(),
     classifiers=[
         'Topic :: Internet :: WWW/HTTP :: Dynamic Content',
         'Intended Audience :: Developers',
