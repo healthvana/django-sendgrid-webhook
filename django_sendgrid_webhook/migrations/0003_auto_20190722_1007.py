@@ -6,7 +6,7 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('django_sendgrid_webhook', '0002_email_reason'),
+        ('sendgrid', '0002_email_reason'),
     ]
 
     operations = [
