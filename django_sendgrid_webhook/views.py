@@ -26,7 +26,7 @@ class SendgridHook(View):
         'delivered': ('open', 'click', 'unsubscribe', 'spamreport'),
         'bounce': (),
         # Sendgrid: Step 4 - Read
-        'open': (),
+        'open': ('click'),
         'click': (),
         'unsubscribe': (),
         'spamreport': (),

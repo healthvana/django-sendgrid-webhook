@@ -156,6 +156,51 @@ class ViewTestCase(BaseTest):
         self.assertEqual(models.Email.objects.count(), 1)
         self.assertEqual(models.Email.objects.all()[0].event, 'delivered')
 
+        # simulate next callback by sendgrid
+        response = self.client.post('/sendgrid_callback/',
+                                    data=json.dumps([{
+                                        'email': 'other_email@example.com',
+                                        'uuid': message.uuid,
+                                        'event': 'open',
+                                        'timestamp': '123459999',
+                                    }, ]),
+                                    content_type='application/json')
+        self.assertEqual(response.status_code, 200)
+
+        # this should have modified the existing email model
+        self.assertEqual(models.Email.objects.count(), 1)
+        self.assertEqual(models.Email.objects.all()[0].event, 'open')
+
+        # simulate next callback by sendgrid
+        response = self.client.post('/sendgrid_callback/',
+                                    data=json.dumps([{
+                                        'email': 'other_email@example.com',
+                                        'uuid': message.uuid,
+                                        'event': 'click',
+                                        'timestamp': '123459999',
+                                    }, ]),
+                                    content_type='application/json')
+        self.assertEqual(response.status_code, 200)
+
+        # this should have modified the existing email model
+        self.assertEqual(models.Email.objects.count(), 1)
+        self.assertEqual(models.Email.objects.all()[0].event, 'click')
+
+        # simulate next callback by sendgrid
+        response = self.client.post('/sendgrid_callback/',
+                                    data=json.dumps([{
+                                        'email': 'other_email@example.com',
+                                        'uuid': message.uuid,
+                                        'event': 'open',
+                                        'timestamp': '123459999',
+                                    }, ]),
+                                    content_type='application/json')
+        self.assertEqual(response.status_code, 200)
+
+        # this should NOT have modified the existing email model
+        self.assertEqual(models.Email.objects.count(), 1)
+        self.assertEqual(models.Email.objects.all()[0].event, 'click')
+
     def test_null_reason(self):
         """ Test what happens if we send a null value as a reason, opposed to a missing reason.
         """
