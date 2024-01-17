@@ -5,7 +5,6 @@ from django.views.generic import View
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse
-from django.utils.timezone import utc
 from django.conf import settings
 from django.utils.module_loading import import_string
 
@@ -27,7 +26,7 @@ class SendgridHook(View):
         'delivered': ('open', 'click', 'unsubscribe', 'spamreport'),
         'bounce': (),
         # Sendgrid: Step 4 - Read
-        'open': (),
+        'open': ('click'),
         'click': (),
         'unsubscribe': (),
         'spamreport': (),
@@ -63,7 +62,7 @@ class SendgridHook(View):
                     #     (or the API got updated)
             timestamp = datetime.datetime.fromtimestamp(int(event['timestamp']))
             if settings.USE_TZ:
-                timestamp = timestamp.utcnow().replace(tzinfo=utc)
+                timestamp = timestamp.utcnow().replace(tzinfo=datetime.timezone.utc)
             email.timestamp = timestamp
             email.save()
             email_event.send(email)

@@ -3,9 +3,8 @@ import json
 
 from django.core.mail import EmailMessage, EmailMultiAlternatives
 from django.conf import settings
-from django.utils.timezone import utc
 
-from datetime import datetime
+from datetime import datetime, timezone
 
 from .models import Email
 
@@ -36,7 +35,7 @@ class SendgridEmailMessage(EmailMessage):
     def send(self, fail_silently=False):
         ret = super(SendgridEmailMessage, self).send(fail_silently)
         if settings.USE_TZ:
-            now = datetime.utcnow().replace(tzinfo=utc)
+            now = datetime.utcnow().replace(tzinfo=timezone.utc)
         else:
             now = datetime.now()
 
@@ -76,7 +75,7 @@ class SendgridEmailMultiAlternatives(EmailMultiAlternatives):
     def send(self, fail_silently=False):
         ret = super(SendgridEmailMultiAlternatives, self).send(fail_silently)
         if settings.USE_TZ:
-            now = datetime.utcnow().replace(tzinfo=utc)
+            now = datetime.utcnow().replace(tzinfo=timezone.utc)
         else:
             now = datetime.now()
 
