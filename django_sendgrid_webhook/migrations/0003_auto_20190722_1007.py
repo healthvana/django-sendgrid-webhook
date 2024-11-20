@@ -13,6 +13,6 @@ class Migration(migrations.Migration):
     operations = [
         migrations.AddIndex(
             model_name='email',
-            index=Index(fields=set(), name='sendgrid_email_reason'),
+            index=Index(fields=[set()], name='sendgrid_email_reason'),
         ),
     ]

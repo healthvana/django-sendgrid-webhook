@@ -36,6 +36,6 @@ class Migration(migrations.Migration):
         ),
         migrations.AddIndex(
             model_name='email',
-            index=models.Index(fields=set([('content_type', 'object_id')]), name='django_sendgrid_webhook_email_content_type_object_id')
+            index=models.Index(fields=[('content_type', 'object_id')], name='django_sendgrid_webhook_email_content_type_object_id')
         ),
     ]
