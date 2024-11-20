@@ -9,6 +9,7 @@
 .coverage
 .tox
 .venv*
+venv*
 *.egg-info/*
 docs/_build/*
 dist/*
