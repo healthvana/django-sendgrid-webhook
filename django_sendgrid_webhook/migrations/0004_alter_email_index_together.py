@@ -14,6 +14,6 @@ class Migration(migrations.Migration):
     operations = [
         migrations.AddIndex(
             model_name='email',
-            index=Index(fields=['content_type', 'object_id']),
+            index=Index(fields=['content_type', 'object_id'], name='email_content_type_object_id'),
         ),
     ]
