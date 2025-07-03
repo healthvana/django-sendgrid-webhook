@@ -34,10 +34,7 @@ class SendgridEmailMessage(EmailMessage):
 
     def send(self, fail_silently=False):
         ret = super(SendgridEmailMessage, self).send(fail_silently)
-        if settings.USE_TZ:
-            now = datetime.utcnow().replace(tzinfo=timezone.utc)
-        else:
-            now = datetime.now()
+        now = datetime.now(timezone.utc)
 
         data = {'uuid': self.uuid,
                 'email': str(self.to),
@@ -74,10 +71,7 @@ class SendgridEmailMultiAlternatives(EmailMultiAlternatives):
 
     def send(self, fail_silently=False):
         ret = super(SendgridEmailMultiAlternatives, self).send(fail_silently)
-        if settings.USE_TZ:
-            now = datetime.utcnow().replace(tzinfo=timezone.utc)
-        else:
-            now = datetime.now()
+        now = datetime.now(timezone.utc)
 
         data = {'uuid': self.uuid,
                 'email': str(self.to),

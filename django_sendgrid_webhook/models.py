@@ -31,9 +31,9 @@ class Email(models.Model):
     uuid = models.CharField(_('reference UUID'), max_length=64, default=_new_uuid, db_index=True)
 
     class Meta:
-        index_together = (
-            ('content_type', 'object_id'),
-        )
+        indexes = [
+            models.Index(fields=['content_type', 'object_id']),
+        ]
 
     def __str__(self):
         return '%s: %s' % (self.email, self.event)
