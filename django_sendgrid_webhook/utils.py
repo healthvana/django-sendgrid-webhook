@@ -5,6 +5,7 @@ from django.core.mail import EmailMessage, EmailMultiAlternatives
 from django.conf import settings
 
 from datetime import datetime, timezone
+from django.utils import timezone as django_timezone
 
 from .models import Email
 
@@ -34,7 +35,9 @@ class SendgridEmailMessage(EmailMessage):
 
     def send(self, fail_silently=False):
         ret = super(SendgridEmailMessage, self).send(fail_silently)
-        now = datetime.now(timezone.utc)
+        now = django_timezone.now()
+        if not settings.USE_TZ:
+            now = now.replace(tzinfo=None)
 
         data = {'uuid': self.uuid,
                 'email': str(self.to),
@@ -71,7 +74,9 @@ class SendgridEmailMultiAlternatives(EmailMultiAlternatives):
 
     def send(self, fail_silently=False):
         ret = super(SendgridEmailMultiAlternatives, self).send(fail_silently)
-        now = datetime.now(timezone.utc)
+        now = django_timezone.now()
+        if not settings.USE_TZ:
+            now = now.replace(tzinfo=None)
 
         data = {'uuid': self.uuid,
                 'email': str(self.to),
