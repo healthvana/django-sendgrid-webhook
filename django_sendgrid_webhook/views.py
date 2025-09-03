@@ -65,9 +65,9 @@ class SendgridHook(View):
                     pass
                     # XXX log that we are in an unknown state and most likely something is wrong
                     #     (or the API got updated)
-            timestamp = datetime.datetime.fromtimestamp(int(event['timestamp']))
-            if settings.USE_TZ:
-                timestamp = timestamp.utcnow().replace(tzinfo=datetime.timezone.utc)
+            timestamp = datetime.datetime.fromtimestamp(int(event['timestamp']), tz=datetime.timezone.utc)
+            if not settings.USE_TZ:
+                timestamp = timestamp.replace(tzinfo=None)
             email.timestamp = timestamp
             email.save()
             email_event.send(email)
