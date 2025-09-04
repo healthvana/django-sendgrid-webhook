@@ -43,7 +43,8 @@ if not settings.configured:
         SECRET_KEY='this-is-just-for-tests-so-not-that-secret',
         ROOT_URLCONF='django_sendgrid_webhook.urls',
         TIME_ZONE='UTC',  # so we can switch USE_TZ on and off in-flight with postgres
-        MIDDLEWARE=('django.middleware.csrf.CsrfViewMiddleware', )
+        MIDDLEWARE=('django.middleware.csrf.CsrfViewMiddleware', ),
+        DEFAULT_AUTO_FIELD = "django.db.models.AutoField"
     )
 
 

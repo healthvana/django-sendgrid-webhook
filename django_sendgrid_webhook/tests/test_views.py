@@ -1,5 +1,6 @@
 from django.test import TestCase, Client
 from django.conf import settings
+from django.core.exceptions import ObjectDoesNotExist
 
 import json
 
@@ -53,7 +54,7 @@ class ViewTestCase(BaseTest):
         self.assertEqual(models.Email.objects.all()[0].event, 'initiated')
 
         # simulate callback by sendgrid
-        with self.assertRaises(models.Email.DoesNotExist):
+        with self.assertRaises(ObjectDoesNotExist):
             self.client.post('/sendgrid_callback/',
                              data=json.dumps([{'email': 'other_email@example.com',
                                                'uuid': '333',
