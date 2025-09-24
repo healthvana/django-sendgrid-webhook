@@ -37,13 +37,14 @@ if not settings.configured:
         DATABASES=DATABASES,
         INSTALLED_APPS=(
             'django.contrib.contenttypes',
-            'sendgrid',
+            'django_sendgrid_webhook',
         ),
         SITE_ID=1,
         SECRET_KEY='this-is-just-for-tests-so-not-that-secret',
-        ROOT_URLCONF='sendgrid.urls',
+        ROOT_URLCONF='django_sendgrid_webhook.urls',
         TIME_ZONE='UTC',  # so we can switch USE_TZ on and off in-flight with postgres
-        MIDDLEWARE_CLASSES=('django.middleware.csrf.CsrfViewMiddleware', )
+        MIDDLEWARE=('django.middleware.csrf.CsrfViewMiddleware', ),
+        DEFAULT_AUTO_FIELD = "django.db.models.AutoField"
     )
 
 
@@ -53,7 +54,7 @@ from django.test.utils import get_runner
 def run_tests():
     if hasattr(django, 'setup'):
         django.setup()
-    apps = sys.argv[1:] or ['sendgrid', ]
+    apps = sys.argv[1:] or ['django_sendgrid_webhook', ]
     test_runner = get_runner(settings)
     test_runner = test_runner(verbosity=1, interactive=True, failfast=False)
     failures = test_runner.run_tests(apps)

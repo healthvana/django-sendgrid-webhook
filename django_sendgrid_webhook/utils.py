@@ -1,10 +1,9 @@
 import json
 import uuid
-from datetime import datetime
+from datetime import datetime, timezone
 
 from django.conf import settings
 from django.core.mail import EmailMessage, EmailMultiAlternatives
-from django.utils.timezone import utc
 
 from .models import Email
 
@@ -34,10 +33,9 @@ class SendgridEmailMessage(EmailMessage):
 
     def send(self, fail_silently=False):
         ret = super(SendgridEmailMessage, self).send(fail_silently)
-        if settings.USE_TZ:
-            now = datetime.utcnow().replace(tzinfo=utc)
-        else:
-            now = datetime.now()
+        now = datetime.now(timezone.utc)
+        if not settings.USE_TZ:
+            now = now.replace(tzinfo=None)
 
         data = {'uuid': self.uuid,
                 'email': str(self.to),
@@ -74,10 +72,9 @@ class SendgridEmailMultiAlternatives(EmailMultiAlternatives):
 
     def send(self, fail_silently=False):
         ret = super(SendgridEmailMultiAlternatives, self).send(fail_silently)
-        if settings.USE_TZ:
-            now = datetime.utcnow().replace(tzinfo=utc)
-        else:
-            now = datetime.now()
+        now = datetime.now(timezone.utc)
+        if not settings.USE_TZ:
+            now = now.replace(tzinfo=None)
 
         data = {'uuid': self.uuid,
                 'email': str(self.to),

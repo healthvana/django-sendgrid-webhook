@@ -1,4 +1,4 @@
-import datetime
+from datetime import datetime, timezone
 import json
 
 from django.conf import settings
@@ -6,7 +6,6 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.http import HttpResponse
 from django.utils.decorators import method_decorator
 from django.utils.module_loading import import_string
-from django.utils.timezone import utc
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import View
 
@@ -28,7 +27,7 @@ class SendgridHook(View):
         'delivered': ('open', 'click', 'unsubscribe', 'spamreport'),
         'bounce': (),
         # Sendgrid: Step 4 - Read
-        'open': (),
+        'open': ('click'),
         'click': (),
         'unsubscribe': (),
         'spamreport': (),
@@ -65,9 +64,9 @@ class SendgridHook(View):
                     pass
                     # XXX log that we are in an unknown state and most likely something is wrong
                     #     (or the API got updated)
-            timestamp = datetime.datetime.fromtimestamp(int(event['timestamp']))
-            if settings.USE_TZ:
-                timestamp = timestamp.utcnow().replace(tzinfo=utc)
+            timestamp = datetime.fromtimestamp(int(event['timestamp']), tz=timezone.utc)
+            if not settings.USE_TZ:
+                timestamp = timestamp.replace(tzinfo=None)
             email.timestamp = timestamp
             email.save()
             email_event.send(email)
